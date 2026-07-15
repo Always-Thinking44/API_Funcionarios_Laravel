@@ -99,7 +99,30 @@ class UserController extends Controller
             'message' => 'Usuário atualizado com sucesso',
         ], 200);
 
+    }
 
+    public function destroy(User $user) : JsonResponse
+    {
+        DB::beginTransaction();
+
+        try {
+            //Deleta o usuário do banco de dados
+            $user->delete();
+
+            DB::commit();
+
+            return response()->json([
+                'status' => 'true',
+                'message' => 'Usuário deletado com sucesso',
+            ], 200);
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => 'false',
+                'message' => 'Erro ao deletar usuário: '.$e->getMessage(),
+            ], 400);
+        }
     }
 
 }
