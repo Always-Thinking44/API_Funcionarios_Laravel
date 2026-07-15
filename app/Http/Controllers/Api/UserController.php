@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function index() : JsonResponse
     {
-        $users = User::orderByDesc('id')->paginate(2);
+        $users = User::orderByDesc('id')->paginate(5);
 
         //Retorna os usuários paginados em formato JSON
         return response()->json([
@@ -62,6 +62,43 @@ class UserController extends Controller
                 'message' => 'Erro ao criar usuário: '.$e->getMessage(),
             ], 400);
         }
+    }
+
+
+    public function update(UserRequest $request, User $user) : JsonResponse
+    {
+        DB::beginTransaction();
+
+        try {
+            //Atualiza o usuário com os dados validados
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'status' => 'true',
+                'user' => $user,
+                'message' => 'Usuário atualizado com sucesso',
+            ], 200);
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => 'false',
+                'message' => 'Erro ao atualizar usuário: '.$e->getMessage(),
+            ], 400);
+        }
+
+        return response()->json([
+            'status' => 'true',
+            'user' => $user,
+            'message' => 'Usuário atualizado com sucesso',
+        ], 200);
+
 
     }
 
