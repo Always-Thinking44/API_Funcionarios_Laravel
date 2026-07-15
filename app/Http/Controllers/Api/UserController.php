@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use DB;
@@ -30,19 +31,13 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function store(Request $request) : JsonResponse
+    public function store(UserRequest $request) : JsonResponse
     {
 
         //Inicia uma transação no banco de dados
         DB::beginTransaction();
 
         try {
-            //Valida os dados recebidos na requisição
-            $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required|string|min:8',
-            ]);
 
             //Cria um novo usuário com os dados validados
             $user = User::create([
