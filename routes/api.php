@@ -4,6 +4,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 
+// lixeira — colocadas antes de /user/{user} por segurança/clareza
+Route::get('/user/trashed/list', [UserController::class, 'trashed']);
+Route::put('/user/{id}/restore', [UserController::class, 'restore']);
+Route::delete('/user/{id}/force-delete', [UserController::class, 'forceDelete']);
+
 
 Route::get('/user', [UserController::class, 'index']); // GET - 127.0.0.1:8000/api/user?page=1
 Route::get('/user/{user}', [UserController::class, 'show']); // GET - 127.0.0.1:8000/api/user/1
