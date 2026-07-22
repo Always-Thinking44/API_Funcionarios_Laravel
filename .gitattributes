@@ -5,7 +5,7 @@
 *.html diff=html
 *.md diff=markdown
 *.php diff=php
-# Ignorar arquivos blade das estatísticas de linguagem (visto que contêm muito HTML)
+# Ignorar arquivos blade das estatísticas de linguagem
 *.blade.php linguist-detectable=false
 
 # Se você também quiser ignorar outros arquivos que "poluem" as estatísticas do PHP (como JS e CSS compilados ou public)
