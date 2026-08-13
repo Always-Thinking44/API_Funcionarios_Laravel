@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\DepartamentoController;
+use App\Http\Controllers\Api\FuncionarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,23 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/users', [UserController::class, 'store']);
     Route::put('/users/{user}', [UserController::class, 'update']);
     Route::delete('/users/{user}', [UserController::class, 'destroy']);
+
+
+    // =========================
+    // FUNCIONÁRIOS
+    // =========================
+
+    // Lixeira
+    Route::get('/funcionarios/trashed/list', [FuncionarioController::class, 'trashed']);
+    Route::put('/funcionarios/{id}/restore', [FuncionarioController::class, 'restore']);
+    Route::delete('/funcionarios/{id}/force-delete', [FuncionarioController::class, 'forceDelete']);
+
+    // CRUD
+    Route::get('/funcionarios', [FuncionarioController::class, 'index']);
+    Route::get('/funcionarios/{id}', [FuncionarioController::class, 'show']);
+    Route::post('/funcionarios', [FuncionarioController::class, 'store']);
+    Route::put('/funcionarios/{id}', [FuncionarioController::class, 'update']);
+    Route::delete('/funcionarios/{id}', [FuncionarioController::class, 'destroy']);
 
 
     // =========================

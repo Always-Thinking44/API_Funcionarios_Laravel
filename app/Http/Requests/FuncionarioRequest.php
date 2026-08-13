@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserRequest extends FormRequest
+class FuncionarioRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +22,13 @@ class UserRequest extends FormRequest
      */
     public function rules(): array
     {
-        $userId = $this->route('user')?->id;
+        $funcionarioId = $this->route('id');
 
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,'.$userId,
-            'password' => $this->isMethod('post') ? 'required|string|min:6' : 'nullable|string|min:6',
+            'nome' => 'required|string|max:255',
+            'email' => 'required|email|unique:funcionarios,email,'.$funcionarioId,
+            'department_id' => 'required|exists:departamentos,id',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ];
     }
 }
