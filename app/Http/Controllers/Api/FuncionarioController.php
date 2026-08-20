@@ -53,6 +53,8 @@ class FuncionarioController extends Controller
                 'department_id' => $request->department_id,
                 'nome' => $request->nome,
                 'email' => $request->email,
+                'salario' => $request->salario,
+                'data_nascimento' => $request->data_nascimento,
                 'image' => $imagePath,
             ]);
 
@@ -83,6 +85,8 @@ class FuncionarioController extends Controller
                 'department_id' => $request->department_id,
                 'nome' => $request->nome,
                 'email' => $request->email,
+                'salario' => $request->salario,
+                'data_nascimento' => $request->data_nascimento,
             ];
 
             if ($request->hasFile('image')) {
