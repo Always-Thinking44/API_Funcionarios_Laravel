@@ -21,16 +21,7 @@ class FuncionarioRequest extends FormRequest
             'nome' => 'required|string|max:255',
             'email' => 'required|email|unique:funcionarios,email,'.$funcionarioId,
             'salario' => 'required|numeric|min:50000',
-            'data_nascimento' => [
-                'required',
-                'date',
-                function (string $attribute, mixed $value, Closure $fail) {
-                    $age = now()->diffInYears(\Carbon\Carbon::parse($value));
-                    if ($age < 18) {
-                        $fail('O funcionário deve ter pelo menos 18 anos.');
-                    }
-                },
-            ],
+            'data_nascimento' => 'required|date|before_or_equal:-18 years',
             'department_id' => 'required|exists:departamentos,id',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ];
