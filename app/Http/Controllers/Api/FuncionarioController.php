@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FuncionarioRequest;
+use App\Http\Requests\FuncionarioUpdateRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -74,20 +75,20 @@ class FuncionarioController extends Controller
         }
     }
 
-    public function update(FuncionarioRequest $request, int $id): JsonResponse
+    public function update(FuncionarioUpdateRequest $request, int $id): JsonResponse
     {
         $funcionario = $request->user()->funcionarios()->findOrFail($id);
 
         DB::beginTransaction();
 
         try {
-            $data = [
-                'department_id' => $request->department_id,
-                'nome' => $request->nome,
-                'email' => $request->email,
-                'salario' => $request->salario,
-                'data_nascimento' => $request->data_nascimento,
-            ];
+            $data = $request->only([
+                'department_id',
+                'nome',
+                'email',
+                'salario',
+                'data_nascimento',
+            ]);
 
             if ($request->hasFile('image')) {
                 if ($funcionario->image) {
